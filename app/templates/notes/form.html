@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% set editing = note is not none %}
+{% block title %}{{ '编辑笔记' if editing else '写笔记' }} · {{ app_name }}{% endblock %}
+
+{% block content %}
+<div class="panel">
+  <h1>{{ '编辑笔记' if editing else '写一篇新笔记' }}</h1>
+  <form method="post" class="form">
+    <label>
+      标题
+      <input name="title" required maxlength="100" value="{{ note['title'] if editing else '' }}">
+    </label>
+    <label>
+      正文
+      <textarea name="body" rows="12" required>{{ note['body'] if editing else '' }}</textarea>
+    </label>
+    <div class="form-actions">
+      <button class="btn btn-primary" type="submit">{{ '保存修改' if editing else '发布笔记' }}</button>
+      <a class="btn btn-ghost" href="{{ url_for('notes.index') }}">取消</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

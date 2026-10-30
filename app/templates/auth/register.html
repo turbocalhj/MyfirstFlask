@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}注册 · {{ app_name }}{% endblock %}
+
+{% block content %}
+<div class="panel">
+  <h1>注册</h1>
+  <form method="post" class="form">
+    <label>
+      用户名
+      <input name="username" required autofocus autocomplete="username"
+             minlength="3" maxlength="20" value="{{ request.form.get('username', '') }}">
+    </label>
+    <label>
+      密码
+      <input name="password" type="password" required minlength="6" autocomplete="new-password">
+    </label>
+    <div class="form-actions">
+      <button class="btn btn-primary" type="submit">创建账号</button>
+      <a class="btn btn-ghost" href="{{ url_for('auth.login') }}">已有账号？登录</a>
+    </div>
+  </form>
+  <p class="hint">密码会用 werkzeug 的哈希算法加密后保存，数据库里看不到明文。</p>
+</div>
+{% endblock %}

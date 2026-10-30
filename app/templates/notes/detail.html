@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}{{ note['title'] }} · {{ app_name }}{% endblock %}
+
+{% block content %}
+<article class="article">
+  <h1>{{ note['title'] }}</h1>
+  <div class="meta">
+    <span>{{ note['username'] }}</span>
+    <time>{{ note['created']|datetimeformat }}</time>
+  </div>
+  <div class="article-body">{{ note['body'] }}</div>
+
+  {% if g.user and g.user['id'] == note['author_id'] %}
+    <div class="article-actions">
+      <a class="btn" href="{{ url_for('notes.edit', note_id=note['id']) }}">编辑</a>
+      <form class="inline-form" action="{{ url_for('notes.delete', note_id=note['id']) }}"
+            method="post" onsubmit="return confirm('确定删除这篇笔记吗？');">
+        <button class="btn btn-danger" type="submit">删除</button>
+      </form>
+    </div>
+  {% endif %}
+</article>
+
+<a class="btn btn-ghost" href="{{ url_for('notes.index') }}">返回列表</a>
+{% endblock %}

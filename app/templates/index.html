@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}全部笔记 · {{ app_name }}{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <h1>一个用 Flask 写的轻量笔记站</h1>
+  <p class="lead">
+    同一份代码同时提供 HTML 页面和 JSON 接口，麻雀虽小，Flask 的核心能力都在里面。
+  </p>
+  <ul class="pills">
+    <li>应用工厂</li>
+    <li>蓝图分模块</li>
+    <li>Jinja2 模板继承</li>
+    <li>SQLite + g 连接管理</li>
+    <li>Session 登录</li>
+    <li>统一错误处理</li>
+    <li>REST API</li>
+  </ul>
+</section>
+
+<form class="search" method="get" action="{{ url_for('notes.index') }}">
+  <input type="search" name="q" value="{{ q }}" placeholder="搜索标题或正文…" aria-label="搜索笔记">
+  <button class="btn" type="submit">搜索</button>
+  {% if q %}
+    <a class="btn btn-ghost" href="{{ url_for('notes.index') }}">清除</a>
+  {% endif %}
+  <span class="muted">共 {{ notes|length }} 篇</span>
+</form>
+
+{% if notes %}
+  <div class="cards">
+    {% for note in notes %}
+      <article class="card">
+        <h2><a href="{{ url_for('notes.detail', note_id=note['id']) }}">{{ note['title'] }}</a></h2>
+        <p class="excerpt">{{ note['body']|truncate(90) }}</p>
+        <div class="meta">
+          <span>{{ note['username'] }}</span>
+          <time>{{ note['created']|datetimeformat }}</time>
+        </div>
+      </article>
+    {% endfor %}
+  </div>
+{% else %}
+  <p class="empty">
+    {% if q %}
+      没有找到与「{{ q }}」相关的笔记。
+    {% else %}
+      还没有笔记，去 <a href="{{ url_for('notes.create') }}">写第一篇</a> 吧。
+    {% endif %}
+  </p>
+{% endif %}
+{% endblock %}

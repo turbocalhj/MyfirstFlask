@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}404 · {{ app_name }}{% endblock %}
+
+{% block content %}
+<div class="panel error-panel">
+  <p class="error-code">404</p>
+  <h1>页面或笔记不存在</h1>
+  <p class="muted">{{ error.description if error else '你访问的地址没有对应的资源。' }}</p>
+  <a class="btn btn-primary" href="{{ url_for('notes.index') }}">回到首页</a>
+</div>
+{% endblock %}
